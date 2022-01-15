@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PetShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:replace="~{partial/header}"></div>
+
+</div>
+<div class="container p-3">
+
+    <form class="p-5 border border-2 rounded" th:method="get" th:action="@{'/'}">
+        <div class="mb-3">
+            <label for="category" class="form-label" th:name="category">Category</label>
+            <select class="form-select" aria-label="Default select example" id="category" name="category">
+                <option th:value="null">Select a category</option>
+                <div th:each="category:${MyCategories}">
+                    <option th:text="${category.getName()}" th:value="${category.getName()}">
+
+                    </option>
+                </div>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Go</button>
+    </form>
+    <!-- https://bbbootstrap.com/snippets/bootstrap-5-bootstrap-5-ecommerce-cards-70379369 -->
+    <div class="container-fluid bg-trasparent my-4 p-3">
+        <div class="row row-cols-4">
+            <div class="col m-3" th:each="product : ${products}">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="clearfix mb-3"><span
+                                class="float-start badge rounded-pill bg-primary" th:text="${product.category.getName()}"></span>
+                            <span
+                                    class="float-end price-hp" th:text="${product.price}"></span></div>
+                        <h5 class="card-title" th:text="${product.title}"></h5>
+                        <div class="text-center my-4"><a th:href="@{/edit/{id}(id = ${product.id})}" class="btn btn-warning">Edit product</a></div>
+                        <div class="text-center my-4">
+
+                            <a th:href="@{/delete/{id}(id = ${product.id})}" class="btn btn-danger">Delete product</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{partial/footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>
