@@ -27,13 +27,17 @@ public class MainController {
     public String index(Model model, @RequestParam(required = false) String category){
         var alleproducten = productRepository.findAll();
         var newList = new ArrayList<Product>();
-        if (!category.isEmpty()){
-            for (var product : alleproducten){
-                if (product.getCategory().getName().equals(category)){
-                    newList.add(product);
+        if (category != null){
+            if(!category.isBlank()) {
+                for (var product : alleproducten) {
+                    if (product.getCategory().getName().equals(category)) {
+                        newList.add(product);
+                    }
                 }
+                model.addAttribute("products", newList);
+            }else{
+                model.addAttribute("products", alleproducten);
             }
-            model.addAttribute("products", newList);
         }else{
             model.addAttribute("products", alleproducten);
         }
