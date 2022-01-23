@@ -49,6 +49,11 @@
                                             </div>
                                             <p class="mb-0"><span><strong>$<span th:text="${item.price}"></span></strong></span></p>
                                         </div>
+                                        <div class="text-center my-4">
+
+                                            <a th:href="@{/removeProduct(productId = ${item.id})}" class="btn btn-danger">Remove product</a>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -71,9 +76,12 @@
                                     <span><strong>$<span th:text="${total}"></span></strong></span>
                                 </li>
                             </ul>
+                            <div th:if="${total} > 0">
+                                <a th:href="@{/success}" h class="btn btn-secondary btn-block waves-effect waves-light">Go to
+                                    checkout</a>
+                            </div>
 
-                            <a th:href="@{/checkout}" h class="btn btn-secondary btn-block waves-effect waves-light">Go to
-                                checkout</a>
+
 
                         </div>
                     </div>

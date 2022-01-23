@@ -19,7 +19,7 @@ public class ShoppingCart {
     }
 
     public float getTotal() {
-        int temp = 0;
+        float temp = 0;
         for (Product product: products){
             temp += product.getPrice();
         }

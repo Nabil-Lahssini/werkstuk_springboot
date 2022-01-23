@@ -35,18 +35,37 @@ public class MainController {
 
     @GetMapping(value = "/cart")
     public String getCart(Model model, Authentication authentication) {
+        OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
         var shoppingCart = cartRepository.findById(authentication.getName()).get();
         model.addAttribute("products", shoppingCart.getProducts());
         model.addAttribute("total", shoppingCart.getTotal());
+        model.addAttribute("username", token.getPrincipal().getAttribute("login"));
+
         return "cart";
     }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.GET)
-    public String getCart(Model model,@RequestParam(required = false) String productId, Authentication authentication) {
+    public String addProduct(Model model,@RequestParam(required = false) String productId, Authentication authentication) {
         var shoppingCart = cartRepository.findById(authentication.getName()).get();
         shoppingCart.getProducts().add(productRepository.findById(Integer.parseInt(productId)).get());
         cartRepository.save(shoppingCart);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/removeProduct", method = RequestMethod.GET)
+    public String removeProduct(@RequestParam(required = false) String productId, Authentication authentication) {
+        var shoppingCart = cartRepository.findById(authentication.getName()).get();
+        shoppingCart.getProducts().remove(productRepository.findById(Integer.parseInt(productId)).get());
+        cartRepository.save(shoppingCart);
+        return "redirect:/cart";
+    }
+
+    @RequestMapping(value = "/success", method = RequestMethod.GET)
+    public String success(Authentication authentication) {
+        var shoppingCart = cartRepository.findById(authentication.getName()).get();
+        shoppingCart.products.clear();
+        cartRepository.save(shoppingCart);
+        return "success";
     }
 
 
