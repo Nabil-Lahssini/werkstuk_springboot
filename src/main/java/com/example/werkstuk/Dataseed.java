@@ -37,26 +37,28 @@ public class Dataseed implements CommandLineRunner {
             product2.setTitle("Black cat"); product2.setPrice(19.99); product2.setDescription("Tiny black kitten");
             product2.setCategory(newCategory);
             productRepository.save(product2);
+
+            Category category2 = new Category();
+            category2.setName("Dogs");
+            var newCategory2 = categoryRepository.save(category2);
+            Product product3 = new Product();
+            product3.setTitle("White dog");
+            product3.setPrice(19.99);
+            product3.setDescription("Big white dog");
+            product3.setCategory(newCategory2);
+            productRepository.save(product3);
+
+            Product product4 = new Product();
+            product4.setTitle("Brown dog");
+            product4.setPrice(19.99);
+            product4.setDescription("Tiny brown dog");
+            product4.setCategory(newCategory2);
+            productRepository.save(product4);
         }
     }
     private void loadDogsData(){
         if (categoryRepository.count() == 0) {
-            Category category = new Category();
-            category.setName("Dogs");
-            var newCategory = categoryRepository.save(category);
-            Product product = new Product();
-            product.setTitle("White dog");
-            product.setPrice(19.99);
-            product.setDescription("Big white dog");
-            product.setCategory(newCategory);
-            productRepository.save(product);
 
-            Product product2 = new Product();
-            product2.setTitle("Brown dog");
-            product2.setPrice(19.99);
-            product2.setDescription("Tiny brown dog");
-            product2.setCategory(newCategory);
-            productRepository.save(product2);
         }
     }
 }
