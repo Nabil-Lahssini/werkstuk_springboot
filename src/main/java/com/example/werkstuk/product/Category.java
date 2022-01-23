@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
+
+//Een category moet aangemaakt worden om aan een product te geven.
 @Entity
 @Table(name = "category")
 public class Category {

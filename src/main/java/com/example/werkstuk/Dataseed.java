@@ -18,23 +18,22 @@ public class Dataseed implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadCatsData();
-        loadDogsData();
+        loadData();
     }
-
-    private void loadCatsData() {
+    //Producten in de database seeden.
+    private void loadData() {
 
         if (categoryRepository.count() == 0) {
             Category category = new Category();
             category.setName("Cats");
             var newCategory = categoryRepository.save(category);
             Product product = new Product();
-            product.setTitle("Yellow cat"); product.setPrice(19.99); product.setDescription("Tiny yellow kitten");
+            product.setTitle("Yellow cat"); product.setPrice(56.90); product.setDescription("Tiny yellow kitten");
             product.setCategory(newCategory);
             productRepository.save(product);
 
             Product product2 = new Product();
-            product2.setTitle("Black cat"); product2.setPrice(19.99); product2.setDescription("Tiny black kitten");
+            product2.setTitle("Black cat"); product2.setPrice(150.00); product2.setDescription("Tiny black kitten");
             product2.setCategory(newCategory);
             productRepository.save(product2);
 
@@ -43,22 +42,17 @@ public class Dataseed implements CommandLineRunner {
             var newCategory2 = categoryRepository.save(category2);
             Product product3 = new Product();
             product3.setTitle("White dog");
-            product3.setPrice(19.99);
+            product3.setPrice(14.99);
             product3.setDescription("Big white dog");
             product3.setCategory(newCategory2);
             productRepository.save(product3);
 
             Product product4 = new Product();
             product4.setTitle("Brown dog");
-            product4.setPrice(19.99);
+            product4.setPrice(79.50);
             product4.setDescription("Tiny brown dog");
             product4.setCategory(newCategory2);
             productRepository.save(product4);
-        }
-    }
-    private void loadDogsData(){
-        if (categoryRepository.count() == 0) {
-
         }
     }
 }

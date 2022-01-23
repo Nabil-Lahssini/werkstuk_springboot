@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+
+//Entity voor producten
 @Entity
 @Table(name = "product")
 public class Product {

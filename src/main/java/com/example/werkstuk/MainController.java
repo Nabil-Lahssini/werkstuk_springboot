@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 @Controller
 public class MainController {
+    //de verschillende repositories die we nodig zullen hebben.
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -26,13 +27,7 @@ public class MainController {
         return categoryRepository.findAll();
     }
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
-    @ResponseBody
-    public String currentUserNameSimple(Authentication authentication) {
-        OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
-        return token.getPrincipal().getAttribute("login");
-    }
-
+    //Shopping cart pagina
     @GetMapping(value = "/cart")
     public String getCart(Model model, Authentication authentication) {
         OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
@@ -44,6 +39,7 @@ public class MainController {
         return "cart";
     }
 
+    //route om een product aan zijn cart toe te voegen
     @RequestMapping(value = "/addProduct", method = RequestMethod.GET)
     public String addProduct(Model model,@RequestParam(required = false) String productId, Authentication authentication) {
         var shoppingCart = cartRepository.findById(authentication.getName()).get();
@@ -51,7 +47,7 @@ public class MainController {
         cartRepository.save(shoppingCart);
         return "redirect:/";
     }
-
+    //product van cart verwijderen
     @RequestMapping(value = "/removeProduct", method = RequestMethod.GET)
     public String removeProduct(@RequestParam(required = false) String productId, Authentication authentication) {
         var shoppingCart = cartRepository.findById(authentication.getName()).get();
@@ -59,7 +55,7 @@ public class MainController {
         cartRepository.save(shoppingCart);
         return "redirect:/cart";
     }
-
+    //wanneer iemand checkout ziet hij een success pagina.
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(Authentication authentication) {
         var shoppingCart = cartRepository.findById(authentication.getName()).get();
@@ -68,7 +64,7 @@ public class MainController {
         return "success";
     }
 
-
+    //Home page waar we alle producten kunnen weergeven
     @GetMapping(value = {"/"})
     public String index(Model model, @RequestParam(required = false) String category, Authentication authentication){
         var alleproducten = productRepository.findAll();
@@ -87,9 +83,10 @@ public class MainController {
         }else{
             model.addAttribute("products", alleproducten);
         }
-        OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
-        model.addAttribute("username", token.getPrincipal().getAttribute("login"));
-
+        if(authentication != null){
+            OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
+            model.addAttribute("username", token.getPrincipal().getAttribute("login"));
+        }
         return "producten";
     }
 }

@@ -16,12 +16,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+
+//success handler wanneer een klant zich inlogd.
 @Component
 public class Auth implements AuthenticationSuccessHandler {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private ShoppingCartRepository shopRepository;
+
+    //Wanneer een nieuwe klant zich met OAuth inlogd wordt zijn data in de database opgeslagen en een nieuwe cart wordt aangemaakt.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;

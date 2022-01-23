@@ -1,7 +1,8 @@
 package com.example.werkstuk.product;
 
-import com.example.werkstuk.user.User;
 import org.springframework.data.repository.CrudRepository;
 
+
+//De repository klassen gebruiken wij om met de database te communiceren. bv findbyid, save enz.
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 }

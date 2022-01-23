@@ -13,13 +13,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/cart","/addProduct", "/removeProduct", "success")
+                .authenticated()
                 .and()
                 .oauth2Login()
                 .successHandler(auth);
 
+                //Ik declareer voor welke routes de gebruikers zich moeten inloggen. Daarna zeg ik dat oauth de authenticatie systeem word.
     }
 }
 
