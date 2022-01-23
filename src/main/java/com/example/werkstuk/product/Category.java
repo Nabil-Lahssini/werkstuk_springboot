@@ -18,7 +18,6 @@ public class Category {
     @OneToMany(mappedBy="category")
     Set<Product> products;
 
-
     public Category(String name) {
         this.name = name;
     }

@@ -1,16 +1,16 @@
 package com.example.werkstuk;
 
-import com.example.werkstuk.product.Category;
-import com.example.werkstuk.product.CategoryRepository;
-import com.example.werkstuk.product.Product;
-import com.example.werkstuk.product.ProductRepository;
+import com.example.werkstuk.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
@@ -19,12 +19,39 @@ public class MainController {
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ShoppingCartRepository cartRepository;
     @ModelAttribute("MyCategories")
     public Iterable<Category> categories() {
         return categoryRepository.findAll();
     }
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserNameSimple(Authentication authentication) {
+        OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
+        return token.getPrincipal().getAttribute("login");
+    }
+
+    @GetMapping(value = "/cart")
+    public String getCart(Model model, Authentication authentication) {
+        var shoppingCart = cartRepository.findById(authentication.getName()).get();
+        model.addAttribute("products", shoppingCart.getProducts());
+        model.addAttribute("total", shoppingCart.getTotal());
+        return "cart";
+    }
+
+    @RequestMapping(value = "/addProduct", method = RequestMethod.GET)
+    public String getCart(Model model,@RequestParam(required = false) String productId, Authentication authentication) {
+        var shoppingCart = cartRepository.findById(authentication.getName()).get();
+        shoppingCart.getProducts().add(productRepository.findById(Integer.parseInt(productId)).get());
+        cartRepository.save(shoppingCart);
+        return "redirect:/";
+    }
+
+
     @GetMapping(value = {"/"})
-    public String index(Model model, @RequestParam(required = false) String category){
+    public String index(Model model, @RequestParam(required = false) String category, Authentication authentication){
         var alleproducten = productRepository.findAll();
         var newList = new ArrayList<Product>();
         if (category != null){
@@ -41,6 +68,9 @@ public class MainController {
         }else{
             model.addAttribute("products", alleproducten);
         }
+        OAuth2AuthenticationToken token =  (OAuth2AuthenticationToken) authentication;
+        model.addAttribute("username", token.getPrincipal().getAttribute("login"));
+
         return "producten";
     }
 }

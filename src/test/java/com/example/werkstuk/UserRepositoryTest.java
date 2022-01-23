@@ -18,12 +18,12 @@ public class UserRepositoryTest {
     @Test
     public void testAddDeleteUser(){
         User user = new User();
+        user.setId("uniqueid");
         user.setEmail("email@mail.com");
-        user.setFirstName("Nabil");
-        user.setLastName("Lahssini");
+        user.setUserName("nabil-lah");
         var saved = repository.save(user);
         Assertions.assertThat(saved).isNotNull();
-        Assertions.assertThat(saved.getId()).isGreaterThan(0);
+        Assertions.assertThat(saved.getId()).isEqualTo("uniqueid");
         repository.delete(saved);
     }
 

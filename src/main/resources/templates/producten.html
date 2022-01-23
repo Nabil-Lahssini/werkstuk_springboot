@@ -38,10 +38,10 @@
                             <span
                                     class="float-end price-hp" th:text="${product.price}"></span></div>
                         <h5 class="card-title" th:text="${product.title}"></h5>
-                        <div class="text-center my-4"><a th:href="@{/edit/{id}(id = ${product.id})}" class="btn btn-warning">Edit product</a></div>
+                        <h4 class="card-title" th:text="${product.description}"></h4>
                         <div class="text-center my-4">
 
-                            <a th:href="@{/delete/{id}(id = ${product.id})}" class="btn btn-danger">Delete product</a>
+                            <a th:href="@{/addProduct(productId = ${product.id})}" class="btn btn-primary">Add product</a>
 
                         </div>
                     </div>

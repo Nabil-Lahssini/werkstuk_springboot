@@ -2,6 +2,7 @@ package com.example.werkstuk.user;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+import java.util.Optional;
 
+public interface UserRepository extends CrudRepository<User, String> {
 }

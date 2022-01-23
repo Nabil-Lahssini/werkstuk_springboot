@@ -9,20 +9,18 @@ import javax.validation.constraints.Size;
 @Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(nullable = false, unique = true, length = 45)
+    private String id;
+    @Column(unique = true, length = 45)
     @Email(message = "Enter your email address")
     private String email;
     @Column(length = 45, nullable = false)
-    private String firstName;
-    @Column(length = 45, nullable = false)
-    private String lastName;
-    public Integer getId() {
+    private String userName;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -34,31 +32,20 @@ public class User {
         this.email = email;
     }
 
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
